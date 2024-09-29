@@ -1,0 +1,15 @@
+import cv2 as cv
+from matplotlib import pyplot as plt
+
+
+img_gray = cv.imread("matricula de coches calle.jpg",cv.IMREAD_GRAYSCALE) # Leer como imagen en escala de grises (un solo canal) 
+img_equ = cv.equalizeHist(img_gray)
+ 
+plt.title('Imagen en escala de grises')
+plt.imshow(img_gray, cmap='gray')
+plt.show()
+
+#--------Imagen gris ecualizada------------#
+plt.title('Imagen en gris ecualizada')
+plt.imshow(img_equ, cmap = 'gray') 
+plt.show()
