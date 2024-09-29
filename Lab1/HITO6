@@ -1,0 +1,52 @@
+import cv2 as cv
+import matplotlib.pyplot as plt
+import numpy as np
+# <0> para importar en escala grises, <1> para importar a color, <-1> importar sin cambios
+imgFondo1 = cv.imread("F1.jpg",0)
+imgFondo2 = cv.imread("F2.jpg",0)
+imgFondo3 = cv.imread("F3.jpg",0)
+
+
+#-CONVERTIMOS las imágenes a float32 para evitar el OVERFLOW o desbordamiento a la hora
+# de hacer el promediado (suma de imagenes bits)
+
+np.float32(imgFondo1 )
+np.float32(imgFondo2 )
+np.float32(imgFondo3 )
+
+suma= imgFondo1 +imgFondo2 +imgFondo3 
+imgPromedioFloat= suma/3
+
+imgPromedio=np.uint8(imgPromedioFloat)
+
+plt.imshow(imgPromedio , cmap='gray')
+plt.title('Imagen promedio escala de grises')
+plt.axis('off')
+plt.show()
+
+###-------------SUSTRACCIÓN FONDO COMPILAR POR SEPARADO--------##
+
+imgSinFondo1 = cv.imread("R1.jpg",0)
+imgSinFondo2 = cv.imread("R2.jpg",0)
+
+#conversión evitar desbordamiento al hacer operaciones aritméticas#
+np.float32(imgSinFondo1)
+np.float32(imgSinFondo2)
+
+imgSinFondo1Float = imgSinFondo1 - imgPromedioFloat
+imgSinFondo2Float  = imgSinFondo2 - imgPromedioFloat # restamos a la imagen del robot la imagen
+# del fondo siendo todas las variables de tipo float para evitar desbordamiento
+
+imgSinFondo1 = np.uint8(np.abs(imgSinFondo1Float)) # conversión de la operación de resta
+#en uint8 para representar correctamente los canales
+imgSinFondo2 = np.uint8(np.abs(imgSinFondo2Float))
+
+plt.imshow(imgSinFondo1 , cmap='gray') # muestra la imagen del robot1 con fondo sustraido
+plt.title('Imagen sustracción fondo' )
+plt.axis('off')
+plt.show()
+
+plt.imshow(imgSinFondo2 , cmap='gray') # muestra imagen del robot 2 con fondo sustraido
+plt.title('Imagen sustracción fondo' )
+plt.axis('off')
+plt.show()
