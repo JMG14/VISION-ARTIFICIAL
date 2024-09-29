@@ -2,14 +2,44 @@ import cv2 as cv
 from matplotlib import pyplot as plt
 
 
-img_gray = cv.imread("matricula de coches calle.jpg",cv.IMREAD_GRAYSCALE) # Leer como imagen en escala de grises (un solo canal) 
+img_gray = cv.imread("matricula de coches calle.jpg",cv.IMREAD_GRAYSCALE) # Leer como 
+#imagen en escala de grises (un solo canal) 
 img_equ = cv.equalizeHist(img_gray)
- 
-plt.title('Imagen en escala de grises')
+
+#--Calcular los histogramas-----------#
+
+hist_gray = cv.calcHist([img_gray], [0], None, [256], [0, 256])
+
+hist_equ = cv.calcHist([img_equ], [0], None, [256], [0, 256])
+
+  # Mostrar la imagen en escala de grises
+
 plt.imshow(img_gray, cmap='gray')
+plt.title('Imagen en escala de grises')
+plt.axis('off')
+plt.show()
+
+# Mostrar el histograma de la imagen SIN ECUALIZAR
+
+plt.plot(hist_gray, color='black')
+plt.title('Histograma SIN ecualizar')
+plt.xlim([0, 256])
+plt.xlabel('Intensidad de píxel')
+plt.ylabel('Cantidad de píxeles')
+
 plt.show()
 
 #--------Imagen gris ecualizada------------#
 plt.title('Imagen en gris ecualizada')
+plt.axis('off')
 plt.imshow(img_equ, cmap = 'gray') 
+plt.show()
+
+# Mostrar el histograma de la imagen ECUALIZADA
+plt.plot(hist_equ, color='black')
+plt.title('Histograma Ecualizada')
+plt.xlim([0, 256])
+plt.xlabel('Intensidad de píxel')
+plt.ylabel('Cantidad de píxeles')
+
 plt.show()
