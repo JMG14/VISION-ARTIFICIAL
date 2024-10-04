@@ -60,7 +60,7 @@ plt.imshow(img, cmap='gray')
 plt.show()
 
 # Umbralización manual 
-mask_black = (img < 40) # el resultado es boolean convierte en un 1 (color blanco)
+mask_black = (img < 10) # el resultado es boolean convierte en un 1 (color blanco)
 #todo pixel en la imagen que su valor sea igual menor que '40' es decir, todos los píxeles
 # que se detecten como por debajo de '40' se convertirán en color blanco '1'
 
@@ -109,7 +109,7 @@ plt.show()
 
 #Lo mismo pero usando OpenCV para hacer una umbralización (thresholding) manual
 #Los píxeles mayores que 40 se fuerzan a 1
-thresh1, mask1= cv.threshold(img1, 10, 1, cv.THRESH_BINARY_INV)
+thresh1, mask1= cv.threshold(img1, 40, 1, cv.THRESH_BINARY_INV)
 plt.figure()
 plt.title("Máscara robot SIN fondo (OpenCV-Manual)")
 plt.imshow(mask1, cmap='gray')
