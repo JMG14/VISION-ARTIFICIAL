@@ -1,0 +1,125 @@
+##**************************************************************************##
+##*************CÓDIGO DE EJEMPLO SEGMENTACIÓN*******************************##
+##**************************************************************************##
+import cv2 as cv
+import matplotlib.pyplot as plt
+import numpy as np
+
+img = cv.imread("Osteosarcoma_01.tif")
+plt.figure()
+plt.title("Imagen original")
+img_rgb = cv.cvtColor(img,cv.COLOR_BGR2RGB)
+plt.imshow(img_rgb)
+plt.show()
+
+######################### SEGMENTACIÓN MANUAL ##################
+# Nos quedamos solo con el canal azul porque los núcleos de las células son de color azul
+# y queremos segmentar (crear una máscara de) los núcleos
+B = img[:,:,0]
+plt.figure()
+plt.title("Canal azul")
+plt.imshow(B, cmap='gray')
+plt.show()
+
+# Umbralización manual 
+mask0 = (B > 40) # el resultado es boolean
+plt.figure()
+plt.title("Máscara de los núcleos (Manual)")
+plt.imshow(mask0, cmap='gray')
+plt.show()
+
+#Lo mismo pero usando OpenCV para hacer una umbralización (thresholding) manual
+#Los píxeles mayores que 40 se fuerzan a 1
+thresh1, mask1 = cv.threshold(B, 40, 1, cv.THRESH_BINARY)
+plt.figure()
+plt.title("Máscara de los núcleos (OpenCV-Manual)")
+plt.imshow(mask1, cmap='gray')
+plt.show()
+
+############# SEGMENTACIÓN AUTOMÁTICA CON MÉTODO DE OTSU ##########################
+#Usando OpenCV para segmentación mediante método de Otsu (thresholding automático)
+thresh2, mask2 = cv.threshold(B, 0, 1, cv.THRESH_OTSU) # en thresh2 se almacena el
+#umbral obtenido
+plt.figure()
+plt.title("Máscara de los núcleos (Otsu-Automático)")
+plt.imshow(mask2,cmap='gray')
+plt.show()
+##**************************************************************************##
+##*************CÓDIGO DE EJEMPLO SEGMENTACIÓN*******************************##
+##**************************************************************************##
+
+##*************************************************************************##
+##***********COMPILAR CÓDIGO CON IMAGEN ROBOT******************************##
+##*************************************************************************##
+
+##************LECTURA IMAGEN ESCALA DE GRISES*********************##
+img = cv.imread("R1.jpg",0)
+plt.figure()
+plt.title("Imagen BW")
+plt.imshow(img, cmap='gray')
+plt.show()
+
+# Umbralización manual 
+mask_black = (img < 40) # el resultado es boolean convierte en un 1 (color blanco)
+#todo pixel en la imagen que su valor sea igual menor que '40' es decir, todos los píxeles
+# que se detecten como por debajo de '40' se convertirán en color blanco '1'
+
+img_black = np.zeros_like(img) #crear matriz vacía 
+img_black[mask_black] = 255 # resalta los píxeles negros a intensidad máxima
+plt.figure()
+plt.title("Máscara robot")
+plt.imshow(img_black, cmap='gray')
+plt.show()
+
+#Lo mismo pero usando OpenCV para hacer una umbralización (thresholding) manual
+#Los píxeles mayores que 40 se fuerzan a 1
+thresh1, mask1= cv.threshold(img, 10, 1, cv.THRESH_BINARY_INV)
+plt.figure()
+plt.title("Máscara robot (OpenCV-Manual)")
+plt.imshow(mask1, cmap='gray')
+plt.show()
+
+############# SEGMENTACIÓN AUTOMÁTICA CON MÉTODO DE OTSU ##########################
+#Usando OpenCV para segmentación mediante método de Otsu (thresholding automático)
+thresh2, mask2 = cv.threshold(img, 0, 1, cv.THRESH_OTSU+cv.THRESH_BINARY_INV) # en thresh2 se almacena el
+#umbral obtenido
+plt.figure()
+plt.title("Máscara robot (Otsu-Automático)")
+plt.imshow(mask2,cmap='gray')
+plt.show()
+
+##************LECTURA IMAGEN ESCALA DE GRISES PERO CON SUSTRACCIÓN FONDO*********************##
+img1 = cv.imread("imgSinFondo1.png",0)
+plt.figure()
+plt.title("Imagen BW")
+plt.imshow(img1, cmap='gray')
+plt.show()
+
+# Umbralización manual 
+mask_black = (img1 < 40) # el resultado es boolean convierte en un 1 (color blanco)
+#todo pixel en la imagen que su valor sea igual menor que '40' es decir, todos los píxeles
+# que se detecten como por debajo de '40' se convertirán en color blanco '1'
+
+img_black = np.zeros_like(img1) #crear matriz vacía 
+img_black[mask_black] = 255 # resalta los píxeles negros a intensidad máxima
+plt.figure()
+plt.title("Máscara robot SIN fondo")
+plt.imshow(img_black, cmap='gray')
+plt.show()
+
+#Lo mismo pero usando OpenCV para hacer una umbralización (thresholding) manual
+#Los píxeles mayores que 40 se fuerzan a 1
+thresh1, mask1= cv.threshold(img1, 10, 1, cv.THRESH_BINARY_INV)
+plt.figure()
+plt.title("Máscara robot SIN fondo (OpenCV-Manual)")
+plt.imshow(mask1, cmap='gray')
+plt.show()
+
+############# SEGMENTACIÓN AUTOMÁTICA CON MÉTODO DE OTSU ##########################
+#Usando OpenCV para segmentación mediante método de Otsu (thresholding automático)
+thresh2, mask2 = cv.threshold(img, 0, 1, cv.THRESH_OTSU+cv.THRESH_BINARY_INV) # en thresh2 se almacena el
+#umbral obtenido
+plt.figure()
+plt.title("Máscara robot SIN fondo(Otsu-Automático)")
+plt.imshow(mask2,cmap='gray')
+plt.show()
