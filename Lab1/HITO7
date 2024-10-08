@@ -106,7 +106,7 @@ plt.imshow(img1, cmap='gray')
 plt.show()
 
 # Umbralización manual 
-mask_black = (img1 < 40) # el resultado es boolean convierte en un 1 (color blanco)
+mask_black = (img1 > 100) # el resultado es boolean convierte en un 1 (color blanco)
 #todo pixel en la imagen que su valor sea igual menor que '40' es decir, todos los píxeles
 # que se detecten como por debajo de '40' se convertirán en color blanco '1'
 
